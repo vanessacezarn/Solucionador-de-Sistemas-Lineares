@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -247,6 +248,57 @@ public class Interface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTamanhoCaretUpdate
 
+    public boolean validarMatriz() {
+        Border bordaPadrao = UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border");
+        // 🔹 Valida matriz A
+
+        for (int i = 0; i < camposA.length; i++) {
+            for (int j = 0; j < camposA[i].length; j++) {
+
+                JTextField campo = camposA[i][j];
+                campo.setBorder(bordaPadrao);
+                String texto = campo.getText().trim();
+
+                // Campo vazio
+                if (texto.isEmpty()) {
+                    campo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    JOptionPane.showMessageDialog(null,"Preencha todos os campos da matriz!\nUse 0 quando não houver valor.","ERRO!!!",JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+
+                // Não é número
+                if (!texto.matches("-?\\d+(\\.\\d+)?")) {
+                    campo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                    JOptionPane.showMessageDialog(null,"Digite apenas números na matriz!","ERRO!!!",JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        }
+
+        // 🔹 Valida vetor B
+        for (int i = 0; i < camposB.length; i++) {
+
+            JTextField campo = camposB[i];
+            campo.setBorder(bordaPadrao);
+            String texto = campo.getText().trim();
+
+            if (texto.isEmpty()) {
+                campo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                JOptionPane.showMessageDialog(null, "Preencha todos os termos independentes!","ERRO!!!",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (!texto.matches("-?\\d+(\\.\\d+)?")) {
+                campo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                JOptionPane.showMessageDialog(null,"Digite apenas números no vetor B!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    
     public boolean validarCampos(JTextComponent... campos) {
         boolean valido = true;
 
@@ -270,22 +322,39 @@ public class Interface extends javax.swing.JFrame {
         if(radEliGauss.isSelected()){
             if(!validarCampos(txtTamanho)){
                 JOptionPane.showMessageDialog(null, "O campo tamanho da matriz(NxN) é obrigatório!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                return;
             }else if (!validarNumero(txtTamanho)) {
                 JOptionPane.showMessageDialog(null, "Digite um número válido!");
+                return;
+            } else if (validarMatriz()) {
+                // chamar a classe Eliminação de Gauss
+                JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR ELIMINAÇÃO DE GAUSS!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
+                return;
+                
             }
         }else if (radMetJacobi.isSelected()|| radMetSeidel.isSelected()){            
             if(!validarCampos(txtTamanho,txtErro,txtInteracao)){
                 JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), presição de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
-            }
-            if (!validarNumero(txtTamanho)) {
+                return;
+            }else if (!validarNumero(txtTamanho)) {
                 JOptionPane.showMessageDialog(null, "Digite um número válido!");
+                return;
+            } else if (validarMatriz()) {
+                if(radMetJacobi.isSelected()){
+                // chamar a classe METODO DE JACOBI 
+                    JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR MÉTODO DE JACOBI!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                else{
+                    // chamar a classe METODO DE SEIDEL
+                    JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR MÉTODO DE SEIDEL!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
             }
-        /*}else if (radMetSeidel.isSelected()){            
-            if(!validarCampos(txtTamanho,txtErro,txtInteracao)){
-                JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), presição de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
-            }*/
+
         }else{
             JOptionPane.showMessageDialog(null, "Selecione um método", "ERRO!!!", JOptionPane.ERROR_MESSAGE);
+            return;
         }
     }//GEN-LAST:event_btnExecutarActionPerformed
 
