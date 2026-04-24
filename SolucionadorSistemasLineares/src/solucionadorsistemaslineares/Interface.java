@@ -4,6 +4,13 @@
  */
 package solucionadorsistemaslineares;
 
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.text.JTextComponent;
+
 /**
  *
  * @author luiza
@@ -39,12 +46,19 @@ public class Interface extends javax.swing.JFrame {
         txtTamanho = new javax.swing.JTextPane();
         painelMatriz = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        btnExecutar = new javax.swing.JButton();
+        lblErro = new javax.swing.JLabel();
+        txtErro = new javax.swing.JTextField();
+        lblInteracao = new javax.swing.JLabel();
+        txtInteracao = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Lucida Fax", 1, 24)); // NOI18N
         jLabel1.setText("Solucionador de Sistemas Lineares");
 
         grpMetodo.add(radEliGauss);
+        radEliGauss.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radEliGauss.setText("Eliminação de Gauss");
         radEliGauss.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,6 +67,7 @@ public class Interface extends javax.swing.JFrame {
         });
 
         grpMetodo.add(radMetJacobi);
+        radMetJacobi.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radMetJacobi.setText("Método de Jacobi");
         radMetJacobi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,7 +76,13 @@ public class Interface extends javax.swing.JFrame {
         });
 
         grpMetodo.add(radMetSeidel);
+        radMetSeidel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radMetSeidel.setText("Método de Gauss-Seidel");
+        radMetSeidel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMetSeidelActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Selecione o método desejado:");
 
@@ -74,18 +95,40 @@ public class Interface extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtTamanho);
 
-        painelMatriz.setLayout(new java.awt.GridLayout());
+        painelMatriz.setLayout(new java.awt.GridLayout(1, 0));
 
-        jLabel4.setText("Coeficientes da matriz:");
+        jLabel4.setText("Digite os coeficientes da matriz A e o vetor de termos independentes b (campos em verde)");
+
+        btnExecutar.setFont(new java.awt.Font("Lucida Fax", 1, 16)); // NOI18N
+        btnExecutar.setText("Executar");
+        btnExecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExecutarActionPerformed(evt);
+            }
+        });
+
+        lblErro.setText("Precisão de erro:");
+
+        txtErro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtErroActionPerformed(evt);
+            }
+        });
+
+        lblInteracao.setText("Número máximo de interações:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(80, 80, 80))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
@@ -95,15 +138,28 @@ public class Interface extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(radMetSeidel))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblErro)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtErro, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(lblInteracao)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtInteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4)
-                            .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(157, 157, 157)
-                        .addComponent(jLabel1)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addGap(93, 93, 93)
+                        .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(228, 228, 228)
+                        .addComponent(btnExecutar)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,26 +173,44 @@ public class Interface extends javax.swing.JFrame {
                     .addComponent(radEliGauss)
                     .addComponent(radMetJacobi)
                     .addComponent(radMetSeidel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblErro)
+                    .addComponent(lblInteracao)
+                    .addComponent(txtInteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtErro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnExecutar)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void radEliGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEliGaussActionPerformed
-        // TODO add your handling code here:
+        txtErro.setText("");
+        txtInteracao.setText("");
+        
+        javax.swing.border.Border bordaPadrao = javax.swing.UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border");
+
+        txtErro.setBorder(bordaPadrao);
+        txtInteracao.setBorder(bordaPadrao);
+        
+        txtErro.setEnabled(false);
+        txtInteracao.setEnabled(false);
     }//GEN-LAST:event_radEliGaussActionPerformed
 
     private void radMetJacobiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMetJacobiActionPerformed
-        // TODO add your handling code here:
+        txtErro.setEnabled(true);
+        txtInteracao.setEnabled(true);
     }//GEN-LAST:event_radMetJacobiActionPerformed
 
     private javax.swing.JTextField[][] camposA;
@@ -173,6 +247,57 @@ public class Interface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTamanhoCaretUpdate
 
+    public boolean validarCampos(JTextComponent... campos) {
+        boolean valido = true;
+
+        for (JTextComponent campo : campos) {
+            campo.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+
+            if (campo.getText().trim().isEmpty()) {
+                campo.setBorder(BorderFactory.createLineBorder(Color.RED));
+                valido = false;
+            }
+        }
+
+        return valido;
+    }
+    public boolean validarNumero(JTextComponent campo) {
+        String texto = campo.getText().trim();
+        return texto.matches("\\d+");
+    }
+    
+    private void btnExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecutarActionPerformed
+        if(radEliGauss.isSelected()){
+            if(!validarCampos(txtTamanho)){
+                JOptionPane.showMessageDialog(null, "O campo tamanho da matriz(NxN) é obrigatório!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+            }else if (!validarNumero(txtTamanho)) {
+                JOptionPane.showMessageDialog(null, "Digite um número válido!");
+            }
+        }else if (radMetJacobi.isSelected()|| radMetSeidel.isSelected()){            
+            if(!validarCampos(txtTamanho,txtErro,txtInteracao)){
+                JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), presição de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+            }
+            if (!validarNumero(txtTamanho)) {
+                JOptionPane.showMessageDialog(null, "Digite um número válido!");
+            }
+        /*}else if (radMetSeidel.isSelected()){            
+            if(!validarCampos(txtTamanho,txtErro,txtInteracao)){
+                JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), presição de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+            }*/
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um método", "ERRO!!!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnExecutarActionPerformed
+
+    private void radMetSeidelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMetSeidelActionPerformed
+        txtErro.setEnabled(true);
+        txtInteracao.setEnabled(true);
+    }//GEN-LAST:event_radMetSeidelActionPerformed
+
+    private void txtErroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtErroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtErroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -199,16 +324,21 @@ public class Interface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExecutar;
     private javax.swing.ButtonGroup grpMetodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblErro;
+    private javax.swing.JLabel lblInteracao;
     private javax.swing.JPanel painelMatriz;
     private javax.swing.JRadioButton radEliGauss;
     private javax.swing.JRadioButton radMetJacobi;
     private javax.swing.JRadioButton radMetSeidel;
+    private javax.swing.JTextField txtErro;
+    private javax.swing.JTextField txtInteracao;
     private javax.swing.JTextPane txtTamanho;
     // End of variables declaration//GEN-END:variables
 }
