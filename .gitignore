@@ -1,0 +1,16 @@
+# Pastas de build e distribuição (geradas pelo Ant)
+build/
+nbbuild/
+dist/
+nbdist/
+
+# Configurações privadas do usuário (essencial ignorar)
+nbproject/private/
+
+# Arquivos de log e cache
+*.log
+nbproject/incremental/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
