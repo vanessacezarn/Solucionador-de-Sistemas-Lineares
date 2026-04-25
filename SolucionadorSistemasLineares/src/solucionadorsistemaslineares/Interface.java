@@ -5,6 +5,7 @@
 package solucionadorsistemaslineares;
 
 import java.awt.Color;
+import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -52,6 +53,7 @@ public class Interface extends javax.swing.JFrame {
         txtErro = new javax.swing.JTextField();
         lblInteracao = new javax.swing.JLabel();
         txtInteracao = new javax.swing.JTextField();
+        btnLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,14 +120,18 @@ public class Interface extends javax.swing.JFrame {
 
         lblInteracao.setText("Número máximo de interações:");
 
+        btnLimpar.setFont(new java.awt.Font("Lucida Fax", 1, 16)); // NOI18N
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(80, 80, 80))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -156,11 +162,19 @@ public class Interface extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(228, 228, 228)
-                        .addComponent(btnExecutar)))
+                        .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(80, 80, 80))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnLimpar)
+                        .addGap(120, 120, 120)
+                        .addComponent(btnExecutar)
+                        .addGap(161, 161, 161))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +203,9 @@ public class Interface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(painelMatriz, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnExecutar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExecutar)
+                    .addComponent(btnLimpar))
                 .addContainerGap())
         );
 
@@ -228,13 +244,13 @@ public class Interface extends javax.swing.JFrame {
             camposB = new javax.swing.JTextField[n];
 
             for (int i = 0; i < n; i++) {
-                // 1. Adiciona os campos da Matriz A (Coeficientes)
+                // Adiciona os campos da Matriz A (Coeficientes)
                 for (int j = 0; j < n; j++) {
                     camposA[i][j] = new javax.swing.JTextField();
                     painelMatriz.add(camposA[i][j]);
                 }
 
-                // 2. Adiciona o campo do Termo Independente (Vetor b) no final da linha
+                //Adiciona o campo do Termo Independente (Vetor b) no final da linha
                 camposB[i] = new javax.swing.JTextField();
                 // Dica visual: mude a cor para o usuário saber que é o termo independente
                 camposB[i].setBackground(new java.awt.Color(200, 255, 200)); 
@@ -250,7 +266,7 @@ public class Interface extends javax.swing.JFrame {
 
     public boolean validarMatriz() {
         Border bordaPadrao = UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border");
-        // 🔹 Valida matriz A
+        // Valida matriz A
 
         for (int i = 0; i < camposA.length; i++) {
             for (int j = 0; j < camposA[i].length; j++) {
@@ -269,13 +285,13 @@ public class Interface extends javax.swing.JFrame {
                 // Não é número
                 if (!texto.matches("-?\\d+(\\.\\d+)?")) {
                     campo.setBorder(BorderFactory.createLineBorder(Color.RED));
-                    JOptionPane.showMessageDialog(null,"Digite apenas números na matriz!","ERRO!!!",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null,"Digite apenas números na matriz ! \n\n *Caso seja número com vírgula digite . no lugar de ,","ERRO!!!",JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
             }
         }
 
-        // 🔹 Valida vetor B
+        // Valida vetor B
         for (int i = 0; i < camposB.length; i++) {
 
             JTextField campo = camposB[i];
@@ -290,7 +306,7 @@ public class Interface extends javax.swing.JFrame {
 
             if (!texto.matches("-?\\d+(\\.\\d+)?")) {
                 campo.setBorder(BorderFactory.createLineBorder(Color.RED));
-                JOptionPane.showMessageDialog(null,"Digite apenas números no vetor B!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Digite apenas números no vetor B!\n\n *Caso seja número com vírgula digite . no lugar de ,","ERRO!!!", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         }
@@ -318,6 +334,33 @@ public class Interface extends javax.swing.JFrame {
         return texto.matches("\\d+");
     }
     
+    /*Método para transformar a matriz informada pelo usuario do tipo JTextField em uma matriz de double*/
+    public double[][] getMatrizA() {
+        int n = camposA.length;
+        double[][] A = new double[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                A[i][j] = Double.parseDouble(camposA[i][j].getText().trim());
+            }
+        }
+
+        return A;
+    }
+    
+    /*Método para transformar o vetor de termos independentes em um vetor de douvle*/
+    public double[] getVetorB() {
+        int n = camposB.length;
+        double[] B = new double[n];
+
+        for (int i = 0; i < n; i++) {
+            B[i] = Double.parseDouble(camposB[i].getText().trim());
+        }
+
+        return B;
+    }
+
+    
     private void btnExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecutarActionPerformed
         if(radEliGauss.isSelected()){
             if(!validarCampos(txtTamanho)){
@@ -327,14 +370,36 @@ public class Interface extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Digite um número válido!");
                 return;
             } else if (validarMatriz()) {
-                // chamar a classe Eliminação de Gauss
-                JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR ELIMINAÇÃO DE GAUSS!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
-                return;
-                
+                try{
+                    /*transforma a matriz digitada em matriz de double*/
+                    double[][] A = getMatrizA();
+                    double[] B = getVetorB();
+                    int tamanho = Integer.parseInt(txtTamanho.getText().trim());
+                    // chama o método resolver da classe Eliminação de Gauss
+                    double[] resultado = EliminacaoGauss.resolver(A, B,tamanho);
+                    JOptionPane.showMessageDialog(null, "Resolução do sistema por eliminação de Gauss\n\nO Vetor Resultante é : +"+Arrays.toString(resultado),"RESULTADO", JOptionPane.INFORMATION_MESSAGE);
+                }catch (ArithmeticException e) {
+                    String msg;
+                    switch (e.getMessage()) {
+                        case "sistema_impossivel":
+                            msg = "Sistema Impossível \nO sistema não possui solução.";
+                            break;
+                        case "sistema_indeterminado":
+                            msg = "Sistema Possível e Indeterminado \nO sistema possui infinitas soluções.";
+                            break;              
+                        default:
+                            msg = "Erro matemático durante o cálculo.";
+                    }
+                    JOptionPane.showMessageDialog(null, msg, "ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception e) {
+                    // ERRO GENÉRICO
+                    JOptionPane.showMessageDialog(null,"Erro inesperado: " + e.getMessage(),"ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                }
+            return;
             }
         }else if (radMetJacobi.isSelected()|| radMetSeidel.isSelected()){            
             if(!validarCampos(txtTamanho,txtErro,txtInteracao)){
-                JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), presição de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Os campos tamanho da matriz (NxN), precisão de erro \n e número máximo de interações são todos obrigatórios!","ERRO!!!", JOptionPane.ERROR_MESSAGE);
                 return;
             }else if (!validarNumero(txtTamanho)) {
                 JOptionPane.showMessageDialog(null, "Digite um número válido!");
@@ -367,6 +432,34 @@ public class Interface extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtErroActionPerformed
 
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        grpMetodo.clearSelection();
+        txtErro.setEnabled(true);
+        txtInteracao.setEnabled(true);
+        txtErro.setText("");
+        txtInteracao.setText("");
+        txtTamanho.setText("");
+        //Limpar a Matriz A (Coeficientes)
+        if (camposA != null) {
+            for (int i = 0; i < camposA.length; i++) {
+                for (int j = 0; j < camposA[i].length; j++) {
+                    camposA[i][j].setText("");
+                    //resetar a borda caso tenha ficado vermelha pelo validarMatriz
+                    camposA[i][j].setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                }
+            }
+        }
+
+        //Limpar o Vetor B (Termos Independentes)
+        if (camposB != null) {
+            for (int i = 0; i < camposB.length; i++) {
+                camposB[i].setText("");
+                // Opcional: resetar a borda
+                camposB[i].setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+            }
+        }
+    }//GEN-LAST:event_btnLimparActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -394,6 +487,7 @@ public class Interface extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExecutar;
+    private javax.swing.JButton btnLimpar;
     private javax.swing.ButtonGroup grpMetodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
