@@ -436,7 +436,7 @@ public class Interface extends javax.swing.JFrame {
                         double[] resultado = MetodosJacobiGauss.resolverGaussSeidel(A, B, tamanho, precisao, erro);
 
                         JOptionPane.showMessageDialog(null,
-                        "Método de Jacobi\n\nSolução: " + Arrays.toString(resultado),
+                        "Método de Gauss-Seiel\n\nSolução: " + Arrays.toString(resultado),
                         "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     } catch (ArithmeticException e) {
