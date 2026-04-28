@@ -61,7 +61,6 @@ public class Interface extends javax.swing.JFrame {
         jLabel1.setText("Solucionador de Sistemas Lineares");
 
         grpMetodo.add(radEliGauss);
-        radEliGauss.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radEliGauss.setText("Eliminação de Gauss");
         radEliGauss.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,7 +69,6 @@ public class Interface extends javax.swing.JFrame {
         });
 
         grpMetodo.add(radMetJacobi);
-        radMetJacobi.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radMetJacobi.setText("Método de Jacobi");
         radMetJacobi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +77,6 @@ public class Interface extends javax.swing.JFrame {
         });
 
         grpMetodo.add(radMetSeidel);
-        radMetSeidel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radMetSeidel.setText("Método de Gauss-Seidel");
         radMetSeidel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -189,11 +186,12 @@ public class Interface extends javax.swing.JFrame {
                     .addComponent(radMetJacobi)
                     .addComponent(radMetSeidel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblErro)
-                    .addComponent(lblInteracao)
-                    .addComponent(txtInteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtErro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtErro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblErro)
+                        .addComponent(lblInteracao)
+                        .addComponent(txtInteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -406,14 +404,46 @@ public class Interface extends javax.swing.JFrame {
                 return;
             } else if (validarMatriz()) {
                 if(radMetJacobi.isSelected()){
-                // chamar a classe METODO DE JACOBI 
-                    JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR MÉTODO DE JACOBI!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+                    try {                        
+                        double[][] A = getMatrizA();
+                        double[] B = getVetorB();
+                        int tamanho = Integer.parseInt(txtTamanho.getText().trim());
+                        double precisao = Double.parseDouble(txtErro.getText().trim());
+                        int erro = Integer.parseInt(txtInteracao.getText().trim());
+
+                        // chama o método resolverJacobi da classeMetodosJacobiGauss
+                        double[] resultado = MetodosJacobiGauss.resolverJacobi(A, B, tamanho, precisao, erro);
+
+                        JOptionPane.showMessageDialog(null,
+                        "Método de Jacobi\n\nSolução: " + Arrays.toString(resultado),
+                        "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    } catch (ArithmeticException e) {
+                        JOptionPane.showMessageDialog(null,
+                            "O método não convergiu no número de iterações informado.",
+                            "ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
                 else{
-                    // chamar a classe METODO DE SEIDEL
-                    JOptionPane.showMessageDialog(null, "RESOLVENDO SISTEMA POR MÉTODO DE SEIDEL!","AVISO!!!", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+                    try {
+                        double[][] A = getMatrizA();
+                        double[] B = getVetorB();
+                        int tamanho = Integer.parseInt(txtTamanho.getText().trim());
+                        double precisao = Double.parseDouble(txtErro.getText().trim());
+                        int erro = Integer.parseInt(txtInteracao.getText().trim());
+
+                        // chama o método resolverGaussSeidel da classeMetodosJacobiGauss
+                        double[] resultado = MetodosJacobiGauss.resolverGaussSeidel(A, B, tamanho, precisao, erro);
+
+                        JOptionPane.showMessageDialog(null,
+                        "Método de Jacobi\n\nSolução: " + Arrays.toString(resultado),
+                        "RESULTADO", JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    } catch (ArithmeticException e) {
+                        JOptionPane.showMessageDialog(null,
+                            "O método não convergiu no número de iterações informado.",
+                            "ERRO!!!", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 
