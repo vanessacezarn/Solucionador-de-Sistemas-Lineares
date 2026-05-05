@@ -38,9 +38,12 @@ O sistema foi projetado para ser utilizado de forma intuitiva, sem necessidade d
 Transforma a matriz de coeficientes em uma **matriz triangular superior** e, em seguida, aplica **substituição retroativa** para encontrar a solução.
 
 #### 🔹 Método de Jacobi
-....
+É um método iterativo que isola cada variável na diagonal principal. A cada passo, utiliza apenas os valores da iteração anterior para calcular os novos, convergindo para a solução se a matriz for diagonalmente dominante.
+
 #### 🔹 Método de Gauss-Seidel
-...
+Uma evolução do Jacobi que utiliza os valores recém-calculados da iteração atual assim que ficam disponíveis. Essa atualização imediata geralmente acelera a convergência, exigindo menos iterações para atingir a precisão desejada.  
+
+
 ---
 
 ### ⚠️ Tratamento de Erros
